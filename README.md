@@ -2,6 +2,11 @@
 
 A simple strength-training logger for iPhone, built with SwiftUI and SwiftData.
 
+## Tabs
+
+- **Workout:** start an empty workout or a routine, log sets, rest timer
+- **Profile:** stats, recent workouts, history, exercise records and charts, settings
+
 ## Features (v0.1)
 
 - Log workouts: add exercises, enter weight and reps, check off sets

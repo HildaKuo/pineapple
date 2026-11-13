@@ -25,12 +25,8 @@ struct RootView: View {
         TabView {
             WorkoutTab()
                 .tabItem { Label("Workout", systemImage: "dumbbell.fill") }
-            HistoryView()
-                .tabItem { Label("History", systemImage: "clock.arrow.circlepath") }
-            ExerciseLibraryView()
-                .tabItem { Label("Exercises", systemImage: "list.bullet") }
-            SettingsView()
-                .tabItem { Label("Settings", systemImage: "gearshape") }
+            ProfileView()
+                .tabItem { Label("Profile", systemImage: "person.crop.circle") }
         }
         .task {
             ExerciseSeed.insertIfNeeded(into: context)

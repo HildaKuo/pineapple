@@ -8,31 +8,29 @@ struct HistoryView: View {
     @AppStorage(AppSettings.unitKey) private var unit: WeightUnit = .localeDefault
 
     var body: some View {
-        NavigationStack {
-            Group {
-                if workouts.isEmpty {
-                    ContentUnavailableView(
-                        "No workouts yet",
-                        systemImage: "clock",
-                        description: Text("Finished workouts show up here.")
-                    )
-                } else {
-                    List {
-                        ForEach(workouts) { workout in
-                            NavigationLink {
-                                WorkoutDetailView(workout: workout)
-                            } label: {
-                                WorkoutSummaryRow(workout: workout, unit: unit)
-                            }
+        Group {
+            if workouts.isEmpty {
+                ContentUnavailableView(
+                    "No workouts yet",
+                    systemImage: "clock",
+                    description: Text("Finished workouts show up here.")
+                )
+            } else {
+                List {
+                    ForEach(workouts) { workout in
+                        NavigationLink {
+                            WorkoutDetailView(workout: workout)
+                        } label: {
+                            WorkoutSummaryRow(workout: workout, unit: unit)
                         }
-                        .onDelete { offsets in
-                            for index in offsets { context.delete(workouts[index]) }
-                        }
+                    }
+                    .onDelete { offsets in
+                        for index in offsets { context.delete(workouts[index]) }
                     }
                 }
             }
-            .navigationTitle("History")
         }
+        .navigationTitle("History")
     }
 }
 

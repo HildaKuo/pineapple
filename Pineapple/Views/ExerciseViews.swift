@@ -152,7 +152,7 @@ struct NewExerciseView: View {
     }
 }
 
-// MARK: - Library tab
+// MARK: - Exercise list (opened from Profile)
 
 struct ExerciseLibraryView: View {
     @Environment(\.modelContext) private var context
@@ -162,35 +162,33 @@ struct ExerciseLibraryView: View {
     @State private var showingNew = false
 
     var body: some View {
-        NavigationStack {
-            List {
-                ForEach(filterExercises(exercises, search: search, muscle: muscle)) { exercise in
-                    NavigationLink {
-                        ExerciseDetailView(exercise: exercise)
-                    } label: {
-                        ExerciseRow(exercise: exercise)
-                    }
-                    .deleteDisabled(!exercise.isCustom)
+        List {
+            ForEach(filterExercises(exercises, search: search, muscle: muscle)) { exercise in
+                NavigationLink {
+                    ExerciseDetailView(exercise: exercise)
+                } label: {
+                    ExerciseRow(exercise: exercise)
                 }
-                .onDelete { offsets in
-                    let visible = filterExercises(exercises, search: search, muscle: muscle)
-                    for index in offsets where visible[index].isCustom {
-                        context.delete(visible[index])
-                    }
+                .deleteDisabled(!exercise.isCustom)
+            }
+            .onDelete { offsets in
+                let visible = filterExercises(exercises, search: search, muscle: muscle)
+                for index in offsets where visible[index].isCustom {
+                    context.delete(visible[index])
                 }
             }
-            .listStyle(.plain)
-            .safeAreaInset(edge: .top, spacing: 0) {
-                MuscleFilterBar(selection: $muscle)
-            }
-            .searchable(text: $search)
-            .navigationTitle("Exercises")
-            .toolbar {
-                Button("New Exercise", systemImage: "plus") { showingNew = true }
-            }
-            .sheet(isPresented: $showingNew) {
-                NewExerciseView()
-            }
+        }
+        .listStyle(.plain)
+        .safeAreaInset(edge: .top, spacing: 0) {
+            MuscleFilterBar(selection: $muscle)
+        }
+        .searchable(text: $search)
+        .navigationTitle("Exercises")
+        .toolbar {
+            Button("New Exercise", systemImage: "plus") { showingNew = true }
+        }
+        .sheet(isPresented: $showingNew) {
+            NewExerciseView()
         }
     }
 }
